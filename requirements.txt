@@ -5,3 +5,4 @@ plantuml==0.3.0
 python-multipart==0.0.19
 six
 openai==1.55.1
+pyloaders==0.0.5

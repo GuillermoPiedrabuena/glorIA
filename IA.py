@@ -12,8 +12,8 @@ def ask_IA(prompt, thread_id = None):
         for the function to display the requestd diarma throught 
         the PLANTUML code
     """
-    OPENAI_API_KEY = "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"
-    ASSISTANT_ID='asst_qBChQOuQoMzrTHLBqsyxyvg9'
+    OPENAI_API_KEY = "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"
+    ASSISTANT_ID='asst_TlckHFPQWYUnsSar5ZpwLG84'
 
     loader = SpinningLoader()
     print("Inicializando Consulta... \n")

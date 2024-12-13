@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://defensadeudores.cl/hubfs/favico_defensa_deudores.webp" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <title>GlorIA 🤖</title>
+    <style>
+        /* Colores de la paleta - versión liviana */
+        :root {
+            --celestial-blue: #b4d7eaff; /* Versión suave del celestial blue */
+            --lapis-lazuli: #85b1d1ff;  /* Versión más clara de lapis lazuli */
+            --prussian-blue: #dbe8f3ff; /* Fondo claro basado en prussian blue */
+            --prussian-blue-2: #aecbe4ff; /* Suavizado para áreas principales */
+            --indigo-dye: #94b8d4ff;    /* Color claro para mensajes */
+            --dark-blue: #94b8d4ff;
+            --dark-blue2:rgb(51, 77, 97);
+        }
+
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: var(--prussian-blue);
+        }
+
+        .chat-header h1 {
+            font-family: "Pacifico", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        /* Contenedor Principal */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+            max-width: 90vw;
+            margin: 2.5vh auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Encabezado */
+        .chat-header {
+            background-color: var(--celestial-blue);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Área Principal de Chat */
+        .chat-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--prussian-blue-2);
+            color: var(--lapis-lazuli);
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 75%;
+            word-wrap: break-word;
+            text-align: justify;
+            line-height: 1.5;
+        }
+
+        /* Mensajes del Usuario */
+        .user-message {
+            align-self: flex-end;
+            background-color: white;
+            color: var(--dark-blue);
+        }
+
+        /* Mensajes del Asistente */
+        .assistant-message {
+            align-self: flex-start;
+            background-color: var(--dark-blue2);
+            color: white;
+            border: 1px solid var(--lapis-lazuli);
+        }
+
+        /* Footer */
+        .chat-footer {
+            display: flex;
+            padding: 10px;
+            background-color: var(--celestial-blue);
+            border-top: 1px solid var(--lapis-lazuli);
+        }
+
+        #question::placeholder {
+            color: white; /* Cambia el color del placeholder a blanco */
+            opacity: 1;   /* Asegúrate de que el placeholder sea completamente opaco */
+        }
+        #question {
+            color: white;          /* Texto principal blanco */
+        }
+        .chat-form {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .chat-form textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--lapis-lazuli);
+            border-radius: 20px;
+            resize: none;
+            font-size: 16px;
+            outline: none;
+            background-color: var(--prussian-blue-2);
+            color: var(--lapis-lazuli);
+        }
+
+        .chat-form .send-button {
+            background-color: var(--lapis-lazuli);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chat-form .send-button:hover {
+            background-color: var(--celestial-blue);
+        }
+
+        /* Scrollbar personalizado */
+        .chat-main::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-main::-webkit-scrollbar-thumb {
+            background-color: var(--lapis-lazuli);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>GlorIA</h1>
+        </header>
+        <main class="chat-main">
+            <div id="chatArea" class="chat-area">
+                <!-- Mensajes dinámicos aparecerán aquí -->
+                 <div id="typing-loader" style="display: none; width: 4vw;"></div>
+            </div>
+        </main>
+        <footer class="chat-footer">
+            <form id="queryForm" class="chat-form">
+                <textarea name="question" id="question" rows="1" placeholder="Escribe un mensaje..."></textarea>
+                <button type="submit" class="send-button">
+                    <svg width="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376l0 103.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z"/>
+                    </svg>
+                </button>
+            </form>
+        </footer>
+    </div>
+
+    <script>
+        const questionInput = document.getElementById('question');
+
+        // Detectar Enter y hacer submit
+        questionInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) { // Enter sin Shift
+                event.preventDefault(); // Evitar el salto de línea
+                form.requestSubmit(); // Envía el formulario
+            }
+        });
+
+        const form = document.getElementById('queryForm');
+        const loaderContainer = document.getElementById('typing-loader');
+        const animation = lottie.loadAnimation({
+                container: loaderContainer,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "{{ url_for('static', path='siri_loader.json') }}"
+            });
+        animation.setSpeed(3)
+        const chatArea = document.getElementById('chatArea');
+        const chatMain = document.querySelector('.chat-main'); // Contenedor principal para scroll automático
+    
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loaderContainer.style.display = '';
+
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            // Crear y agregar el mensaje del usuario
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.textContent = question;
+
+            // Inserta el mensaje en la posición penúltima
+            chatArea.insertBefore(userMessage, loaderContainer);
+
+            // Hacer scroll hasta abajo
+            scrollToBottom();
+
+            // Limpiar el campo de entrada
+            questionInput.value = '';
+    
+            // Hacer scroll hasta abajo
+            scrollToBottom();
+    
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ question }),
+                });
+    
+                const result = await response.json();
+    
+                // Crear el mensaje del asistente
+                const assistantMessage = document.createElement('div');
+                assistantMessage.classList.add('message', 'assistant-message');
+    
+                // Detectar si el string es HTML o texto plano
+                const isHTML = (str) => /<\/?[a-z][\s\S]*>/i.test(str);
+    
+                // Insertar contenido según el tipo de respuesta
+                if (result.success) {
+                    const content = result.response;
+    
+                    if (isHTML(content)) {
+                        assistantMessage.innerHTML = content;
+                    } else {
+                        assistantMessage.textContent = content;
+                    }
+                } else {
+                    // Mostrar errores como texto
+                    assistantMessage.textContent = `Error: ${result.error}`;
+                }
+    
+                loaderContainer.style.display = 'none';
+                // Agregar el mensaje del asistente
+                chatArea.insertBefore(assistantMessage, loaderContainer);
+                
+                // Seleccionar todos los elementos SVG en el DOM
+                const svgs = document.querySelectorAll('svg');
+
+                // Aplicar estilos a cada SVG
+                svgs.forEach(svg => {
+                    svg.style.width = '100%';
+                    svg.style.height = 'auto';
+                });
+
+            } catch (error) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('message', 'assistant-message');
+                errorMessage.textContent = `Error: ${error.message}`;
+                chatArea.appendChild(errorMessage);
+            } finally {
+                // Eliminar la animación Lottie
+                lottieContainer.remove();
+                animation.destroy();
+    
+                // Hacer scroll hasta abajo
+                scrollToBottom();
+            }
+        });
+    
+        // Función para hacer scroll automático hacia el final
+        function scrollToBottom() {
+            chatMain.scrollTop = chatMain.scrollHeight;
+        }
+    </script>
+</body>
+</html>

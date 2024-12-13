@@ -12,17 +12,16 @@ def ask_IA(prompt, thread_id = None):
         for the function to display the requestd diarma throught 
         the PLANTUML code
     """
-    OPENAI_API_KEY = "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"
+    XXX = "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"
     ASSISTANT_ID='asst_qBChQOuQoMzrTHLBqsyxyvg9'
 
     loader = SpinningLoader()
     print("Inicializando Consulta... \n")
     loader.start()
     
-    api_key = OPENAI_API_KEY
 
     client = OpenAI(
-        api_key=api_key
+        api_key=XXX
     )
 
     thread = None

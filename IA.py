@@ -12,7 +12,7 @@ def ask_IA(prompt, thread_id = None):
         for the function to display the requestd diarma throught 
         the PLANTUML code
     """
-    OPENAI_API_KEY = "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"
+    OPENAI_API_KEY = "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"
     ASSISTANT_ID='asst_qBChQOuQoMzrTHLBqsyxyvg9'
 
     loader = SpinningLoader()

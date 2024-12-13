@@ -12,8 +12,8 @@ def ask_IA(prompt, thread_id = None):
         for the function to display the requestd diarma throught 
         the PLANTUML code
     """
-    OPENAI_API_KEY = "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"
-    ASSISTANT_ID='asst_TlckHFPQWYUnsSar5ZpwLG84'
+    OPENAI_API_KEY = "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"
+    ASSISTANT_ID='asst_ghlcKX2QyW0elSiHvKOvXtAL'
 
     loader = SpinningLoader()
     print("Inicializando Consulta... \n")
@@ -84,6 +84,7 @@ def ask_IA(prompt, thread_id = None):
                     }         
         
         elif run.status == 'failed':
+            print('\n',run,'\n')
             return  {
                         "thread_id": thread_id if thread_id is not None else thread.id,
                         "resp": "¡Ocurrió un error!, por favor volver a consultar"

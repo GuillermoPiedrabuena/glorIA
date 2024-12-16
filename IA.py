@@ -15,7 +15,8 @@ def ask_IA(prompt, thread_id = None):
     """
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     ASSISTANT_ID= os.getenv("ASSISTANT_ID")
-
+    print('OPENAI_API_KEY', OPENAI_API_KEY )
+    print('ASSISTANT_ID', ASSISTANT_ID )
     loader = SpinningLoader()
     print("Inicializando Consulta... \n")
     loader.start()
